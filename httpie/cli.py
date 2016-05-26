@@ -366,6 +366,18 @@ output_options.add_argument(
 )
 
 
+output_options.add_argument(
+    '--jsonapi', '-z',
+    dest='jsonapi',
+    metavar='TYPE',
+    default=False,
+    help="""
+    If TYPE is set we use this as the type for jsonapi, and format the data
+    for jsonapi requests.
+    """
+)
+
+
 #######################################################################
 # Sessions
 #######################################################################

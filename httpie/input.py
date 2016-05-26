@@ -166,7 +166,23 @@ class HTTPieArgumentParser(ArgumentParser):
                 self.args.url = scheme + self.args.url
         self._process_auth()
 
+        if self.args.jsonapi:
+            self._format_args_for_jsonapi()
+
         return self.args
+
+    def _format_args_for_jsonapi(self):
+        self.args.data = {
+            'data': {
+                'attributes': self.args.data,
+                'type': self.args.jsonapi,
+            }
+        }
+        if self.args.method == 'PATCH':
+            url = urlsplit(self.args.url)
+            urlpath = url.path if url.path[-1] != '/' else url.path[:-1]
+
+            self.args.data['data']['id'] = urlpath.split('/')[-1]
 
     # noinspection PyShadowingBuiltins
     def _print_message(self, message, file=None):

@@ -7,6 +7,16 @@ import httpie
 from httpie.compat import is_py26
 
 
+def test_jsonapi(httpbin_both):
+    result = http('POST', httpbin_both + '/post', 'foo=bar', '--jsonapi=admin')
+    assert result.json['json'] == {
+        'data': {
+            'attributes': {'foo': 'bar'},
+            'type': 'admin'
+        }
+    }
+
+
 def test_debug():
     r = http('--debug')
     assert r.exit_status == httpie.ExitStatus.OK
